@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Drift</title>
+<meta name="description" content="A quiet place to track how you feel today." />
+<meta name="theme-color" content="#EDF1E6" />
+<link rel="manifest" href="manifest.json" />
+<link rel="icon" href="icons/icon-192.png" />
+<link rel="apple-touch-icon" href="icons/icon-192.png" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="Drift" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Karla:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- Main app -->
+<div id="app" class="screen">
+
+  <header class="topbar">
+    <span class="wordmark">Drift</span>
+    <nav class="tabs" role="tablist" aria-label="Views">
+      <button class="tab active" data-view="log" role="tab" aria-selected="true">Log</button>
+      <button class="tab" data-view="table" role="tab" aria-selected="false">Table</button>
+      <button class="tab" data-view="calendar" role="tab" aria-selected="false">Calendar</button>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- LOG VIEW -->
+    <section id="view-log" class="view active">
+      <div class="today-icon" id="today-icon" aria-hidden="true">⭐</div>
+      <p class="today-label" id="today-label">Neutral</p>
+
+      <div class="slider-wrap">
+        <input type="range" id="slider" min="1" max="7" step="1" value="4" aria-label="Masculine to feminine feeling today" />
+        <div class="slider-ticks" aria-hidden="true">
+          <span>☀️</span><span>🌲</span><span>⛰️</span><span>⭐</span><span>🎀</span><span>🌸</span><span>🌙</span>
+        </div>
+        <div class="slider-endcaps">
+          <span>masculine</span>
+          <span>feminine</span>
+        </div>
+      </div>
+
+      <label class="note-label" for="note">Note <span>(optional)</span></label>
+      <textarea id="note" rows="2" placeholder="Anything you want to remember about right now"></textarea>
+
+      <button id="log-btn" class="primary-btn">Log this feeling</button>
+      <p id="log-confirm" class="log-confirm" hidden>Logged.</p>
+    </section>
+
+    <!-- TABLE VIEW -->
+    <section id="view-table" class="view">
+      <div id="table-empty" class="empty-state" hidden>
+        <p>Nothing logged yet.</p>
+        <span>Your entries will show up here once you log your first feeling.</span>
+      </div>
+      <div id="table-list" class="entry-list"></div>
+    </section>
+
+    <!-- CALENDAR VIEW -->
+    <section id="view-calendar" class="view">
+      <div class="cal-header">
+        <button id="cal-prev" aria-label="Previous month">‹</button>
+        <span id="cal-month-label"></span>
+        <button id="cal-next" aria-label="Next month">›</button>
+      </div>
+      <div class="cal-grid" id="cal-grid"></div>
+      <div id="cal-day-detail" class="cal-day-detail" hidden></div>
+    </section>
+
+  </main>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
