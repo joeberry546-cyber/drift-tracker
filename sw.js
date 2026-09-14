@@ -1,4 +1,4 @@
-const CACHE = 'drift-shell-v1';
+const CACHE = 'drift-shell-v2';
 const SHELL = ['/', '/index.html', '/styles.css', '/app.js', '/manifest.json'];
 
 self.addEventListener('install', (event) => {
@@ -18,7 +18,16 @@ self.addEventListener('fetch', (event) => {
   // Never cache API calls — always go to the network for entries.
   if (url.pathname.startsWith('/.netlify/functions/')) return;
 
+  // Network-first: always try to get the latest file when online, and only
+  // fall back to the cached copy if the network request fails (e.g. offline).
+  // This is what makes future deploys show up without a stuck cache.
   event.respondWith(
-    caches.match(event.request).then((cached) => cached || fetch(event.request))
+    fetch(event.request)
+      .then((response) => {
+        const copy = response.clone();
+        caches.open(CACHE).then((cache) => cache.put(event.request, copy));
+        return response;
+      })
+      .catch(() => caches.match(event.request))
   );
 });
