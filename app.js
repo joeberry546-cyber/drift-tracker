@@ -8,7 +8,8 @@ const SCALE = [
   { value: 7, icon: '🌙', label: 'Feminine' },
 ];
 
-const COLORS = ['#4C7EB0', '#6F7CAE', '#8C74AE', '#9E72A7', '#B171A6', '#C070A3', '#C96FA0'];
+const COLORS = ['#1E4C7A', '#5580A8', '#A9C2D9', '#F1E9D6', '#E8B4CB', '#C1608F', '#7A2C54'];
+const TEXT_COLORS = ['#FFFFFF', '#FFFFFF', '#2C3527', '#2C3527', '#2C3527', '#FFFFFF', '#FFFFFF'];
 
 const API = '/.netlify/functions/entries';
 
@@ -22,6 +23,10 @@ function scaleFor(value) {
 
 function colorFor(value) {
   return COLORS[value - 1];
+}
+
+function textColorFor(value) {
+  return TEXT_COLORS[value - 1];
 }
 
 // ---------- API ----------
@@ -39,6 +44,13 @@ async function apiPost(entry) {
   });
   if (!res.ok) throw new Error('request failed');
   return res.json();
+}
+
+function renderLegend() {
+  const legend = document.getElementById('cal-legend');
+  legend.innerHTML = SCALE.map((s, i) => {
+    return `<div class="legend-swatch" style="background:${COLORS[i]};color:${TEXT_COLORS[i]}" title="${s.label}">${s.icon}</div>`;
+  }).join('');
 }
 
 // ---------- Startup ----------
@@ -196,7 +208,9 @@ function renderCalendar() {
     if (dayEntries.length) {
       cls += ' has-entry';
       const latest = dayEntries[0];
+      const textColor = textColorFor(latest.value);
       style = `style="background:${colorFor(latest.value)}"`;
+      inner = `<span class="cal-daynum" style="color:${textColor}">${day}</span>`;
       inner += `<span class="cal-emoji">${scaleFor(latest.value).icon}</span>`;
     }
     if (isToday) cls += ' today';
@@ -246,3 +260,4 @@ if ('serviceWorker' in navigator) {
 }
 
 loadApp();
+renderLegend();

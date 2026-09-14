@@ -6,13 +6,13 @@
   --ink-soft: #5C6B4E;
   --line: #C3D0B4;
 
-  --c1: #4C7EB0; /* masculine */
-  --c2: #6F7CAE;
-  --c3: #8C74AE;
-  --c4: #9E72A7; /* neutral midpoint */
-  --c5: #B171A6;
-  --c6: #C070A3;
-  --c7: #C96FA0; /* feminine */
+  --c1: #1E4C7A; /* masculine — deep blue */
+  --c2: #5580A8; /* mostly masculine */
+  --c3: #A9C2D9; /* slightly masculine */
+  --c4: #F1E9D6; /* neutral — pale cream */
+  --c5: #E8B4CB; /* slightly feminine */
+  --c6: #C1608F; /* mostly feminine */
+  --c7: #7A2C54; /* feminine — deep berry */
 }
 
 * { box-sizing: border-box; }
@@ -310,6 +310,22 @@ main {
   font-family: 'Fraunces', serif;
   font-size: 17px;
   font-weight: 500;
+}
+
+.cal-legend {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  margin-bottom: 16px;
+}
+
+.legend-swatch {
+  aspect-ratio: 1;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
 }
 
 .cal-grid {
