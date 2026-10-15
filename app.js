@@ -118,7 +118,35 @@ logBtn.addEventListener('click', async () => {
 });
 
 // ---------- Table view ----------
+function renderBreakdown() {
+  const wrap = document.getElementById('table-breakdown');
+  const bars = document.getElementById('breakdown-bars');
+  const total = entries.length;
+
+  if (!total) {
+    wrap.hidden = true;
+    bars.innerHTML = '';
+    return;
+  }
+  wrap.hidden = false;
+
+  bars.innerHTML = SCALE.map((s) => {
+    const count = entries.filter((e) => e.value === s.value).length;
+    const pct = Math.round((count / total) * 100);
+    return `
+      <div class="breakdown-row" aria-label="${s.label}: ${count} logs, ${pct}%">
+        <span class="breakdown-icon" aria-hidden="true">${s.icon}</span>
+        <span class="breakdown-label">${s.label}</span>
+        <div class="breakdown-track">
+          <div class="breakdown-fill" style="width:${pct}%;background:${colorFor(s.value)}"></div>
+        </div>
+        <span class="breakdown-stat">${count} · ${pct}%</span>
+      </div>`;
+  }).join('');
+}
+
 function renderTable() {
+  renderBreakdown();
   const list = document.getElementById('table-list');
   const empty = document.getElementById('table-empty');
   const sorted = [...entries].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
