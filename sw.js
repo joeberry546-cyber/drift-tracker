@@ -1,5 +1,5 @@
-const CACHE = 'drift-shell-v2';
-const SHELL = ['/', '/index.html', '/styles.css', '/app.js', '/manifest.json'];
+const CACHE = 'drift-shell-v3';
+const SHELL = ['/', '/index.html', '/styles.css', '/app.js', '/trends.js', '/manifest.json'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(CACHE).then((c) => c.addAll(SHELL)));
