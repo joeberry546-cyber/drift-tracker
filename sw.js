@@ -17,16 +17,17 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
   // Never cache API calls — always go to the network for entries.
   if (url.pathname.startsWith('/.netlify/functions/')) return;
+  if (event.request.method !== 'GET') return;
 
-  // Network-first: always try to get the latest file when online, and only
-  // fall back to the cached copy if the network request fails (e.g. offline).
-  // This is what makes future deploys show up without a stuck cache.
+  // Network-first: new deploys show up right away; cache is the offline fallback.
   event.respondWith(
     fetch(event.request)
-      .then((response) => {
-        const copy = response.clone();
-        caches.open(CACHE).then((cache) => cache.put(event.request, copy));
-        return response;
+      .then((res) => {
+        if (res.ok && url.origin === self.location.origin) {
+          const copy = res.clone();
+          caches.open(CACHE).then((c) => c.put(event.request, copy));
+        }
+        return res;
       })
       .catch(() => caches.match(event.request))
   );
